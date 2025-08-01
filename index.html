@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carta Animada</title>
+  <style>
+    body {
+      margin: 0;
+      background: #ffe6f0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      perspective: 1000px; /* Essencial para 3D */
+    }
+
+    .envelope {
+      position: relative;
+      width: 400px;
+      height: 300px;
+      background: #fff;
+      border: 2px solid #d63384;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #d63384;
+      clip-path: polygon(0 0, 100% 0, 50% 50%);
+      transform-origin: top;
+      transform: rotateX(0deg);
+      transition: transform 0.6s ease;
+      z-index: 2;
+    }
+
+    .envelope.opened .flap {
+      transform: rotateX(-180deg);
+    }
+
+    .letter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 20px;
+      background: #fff;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      text-align: center;
+      font-size: 1.1rem;
+      color: #444;
+      z-index: 1;
+    }
+
+    .envelope.opened .letter {
+      opacity: 1;
+    }
+
+    /* Corações flutuando */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d6d;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff4d6d;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: -10px;
+    }
+
+    @keyframes float {
+      0% {
+        bottom: -20px;
+        opacity: 0;
+        transform: translateY(0) rotate(45deg);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        bottom: 100vh;
+        opacity: 0;
+        transform: translateY(-100px) rotate(45deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="envelope" onclick="abrirCarta()">
+  <div class="flap"></div>
+  <div class="letter">
+    Minha xurunbinga,<br><br>
+    <strong>Eu te amo minha rainha </strong>, com você a vida tem mais cor e o sorriso sempre aparece, com você até mesmo o dia mais bobo é uma  
+    memória que não quero perder, quero de seja minha namorada para sempre, mesmo noivos ou casado, que sempre tenhamos a nossa 
+    essência do primeiro amor<br><br>
+    Com carinho,<br>
+    Do seu namorado!
+  </div>
+</div>
+
+<script>
+  function abrirCarta() {
+    document.querySelector('.envelope').classList.toggle('opened');
+  }
+
+  // Geração dinâmica de corações flutuando
+  function criarCoracoes() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.animationDuration = 3 + Math.random() * 3 + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+
+  setInterval(criarCoracoes, 300);
+</script>
+
+</body>
+</html>
